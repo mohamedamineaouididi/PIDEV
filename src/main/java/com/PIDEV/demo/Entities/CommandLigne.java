@@ -23,7 +23,7 @@ public class CommandLigne implements Serializable {
     private int Qunt;
 
     @ManyToOne
-    private Order order;
+    private Orderr order;
 
     @ManyToOne
     private Product product;

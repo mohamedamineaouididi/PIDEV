@@ -1,5 +1,6 @@
 package com.PIDEV.demo.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -23,8 +25,16 @@ public class Facture  implements Serializable {
     private Integer idF;
     private  String ref;
     @Temporal(TemporalType.DATE)
+    @Column(nullable = false)
     private Date dateFac ;
+    @PrePersist
+    private void onCreate(){
+        dateFac= new Date();
+    }
 
     @OneToOne(mappedBy="facture")
-    private Order order;
+    @JsonIgnore //ajouter ici si je veur afficher seulement facture (id,refer,date)
+    private Orderr orderr;
+
+
 }

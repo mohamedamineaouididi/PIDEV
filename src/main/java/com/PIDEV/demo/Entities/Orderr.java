@@ -1,5 +1,6 @@
 package com.PIDEV.demo.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,25 +16,35 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Order implements Serializable {
+
+public class Orderr implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Integer idO;
+    private Integer idOrd;
     private  String refer;
     @Temporal(TemporalType.DATE)
+    @Column(nullable = false)
     private Date dateOrder ;
+    @PrePersist
+    private void onCreate(){
+        dateOrder= new Date();
+    }
+    //
     private String state;
+
 
     @ManyToOne
     private  Delivery delivery;
 
     @OneToOne
+    //@JsonIgnore:ajouter jsonignore seulement dans cette entite
+    //si je veux afficher les details de odrder,lignecommande,delivery,facture
     private Facture facture;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="order")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="orderr")
     private Set<CommandLigne> CommandLignes;
 
 }
